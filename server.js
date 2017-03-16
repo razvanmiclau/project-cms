@@ -3,6 +3,10 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 
+// Models and Routes
+import Project from './models/project';
+import { getProjects, getProject, postProject, deleteProject } from './client/routes/project';
+
 // Express Server Defaults
 const server = express();
 const mongoConnection = 'mongodb://127.0.0.1:27017';
@@ -32,6 +36,9 @@ server.use((req, res, next) => {
 });
 
 // Routes
+server.route('/projects').post(postProject).get(getProjects);
+server.route('/projects/:id').get(getProject).delete(deleteProject);
+// default route.
 server.route("*").get((req, res) => {
   res.sendFile('client/dist/index.html', { root: __dirname });
 });

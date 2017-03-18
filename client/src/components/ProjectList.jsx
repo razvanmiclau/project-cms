@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Project from './Project';
+
+const headers = {
+  headers: new Headers({
+    'Content-Type': 'application/json'
+  })
+};
 
 export default class ProjectList extends Component {
   constructor(props) {
@@ -16,14 +23,24 @@ export default class ProjectList extends Component {
   }
 
   fetchProjects() {
-    const headers = {
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-    };
     fetch('http://localhost:8080/projects', headers)
     .then(res => res.json())
     .then(data => this.setState({projects: data}));
+  }
+
+  deleteProject(id) {
+    const projects = this.state.projects;
+    fetch(`http://localhost:8080/projects/${id}`, {
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      method: 'DELETE',
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({ projects: projects.filter(project => project._id != id)})
+      console.log(res.message);
+    });
   }
 
   render() {
@@ -34,11 +51,14 @@ export default class ProjectList extends Component {
         {
           projects.map(project => {
             return (
-              <p>{project.project_name}</p>
+              <Project
+                {...project}
+                key={project._id}
+                deleteProject={this.deleteProject.bind(this)}
+              />
             )
           })
         }
-        {this.props.children}
       </div>
     )
   }

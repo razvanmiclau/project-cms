@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Project from './Project';
+import AddProject from './AddProject';
 
 const headers = {
   headers: new Headers({
@@ -47,6 +48,8 @@ export default class ProjectList extends Component {
     const projects = this.state.projects;
     return (
       <div className="view">
+        <Link to='/projects/add'>New Project</Link>
+        {this.props.children}
         <h2>List of Projects</h2>
         {
           projects.map(project => {

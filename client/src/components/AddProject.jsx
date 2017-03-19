@@ -36,12 +36,22 @@ export default class AddProject extends Component {
     return(
       <div className="container">
         <form onSubmit={this.submit.bind(this)}>
-          <input ref="title" type="text" placeholder="Project Title" onChange={this.setProject.bind(this)} />
-          <input ref="url" type="text" placeholder="Enter IMG URL" onChange={this.setProject.bind(this)} />
-          <textarea ref="desc" type="text" placeholder="Project Description" onChange={this.setProject.bind(this)} />
-          <button type="submit">Submit Project</button>
+          <div className="form-group">
+            <label htmlFor="project-title">Project Title</label>
+            <input className="form-control" ref="title" type="text" placeholder="Project Title" onChange={this.setProject.bind(this)} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="project-url">Image URL</label>
+            <input className="form-control" ref="url" type="text" placeholder="Enter IMG URL" onChange={this.setProject.bind(this)} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="project-description">Project Description</label>
+            <textarea className="form-control" rows="3" ref="desc" type="text" placeholder="Project Description" onChange={this.setProject.bind(this)} />
+          </div>
+          <button className="btn btn-primary" type="submit">Submit Project</button>
+          <Link className="btn" to='/projects'>Back</Link>
+          
         </form>
-        <Link to='/projects'>Back</Link>
       </div>
     )
   }

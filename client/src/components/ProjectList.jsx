@@ -47,22 +47,40 @@ export default class ProjectList extends Component {
   render() {
     const projects = this.state.projects;
     return (
-      <div className="view">
-        <Link to='/projects/add'>New Project</Link>
-        {this.props.children}
-        <h2>List of Projects</h2>
-        {
-          projects.map(project => {
-            return (
-              <Project
-                {...project}
-                key={project._id}
-                deleteProject={this.deleteProject.bind(this)}
-              />
-            )
-          })
-        }
+      <div>
+        <nav className="navbar navbar-default">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <a className="navbar-brand">Project CMS</a>
+              <ul className="nav navbar-nav">
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/projects">Projects</Link></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div className="container">
+          <div className="page-header">
+            <h2>List of Projects <small><Link to='/projects/add'>New Project</Link></small></h2>
+          </div>
+          {this.props.children}
+          <div className="projects">
+            {
+              projects.map(project => {
+                return (
+                  <Project
+                    {...project}
+                    key={project._id}
+                    deleteProject={this.deleteProject.bind(this)}
+                  />
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
+
+
     )
   }
 }

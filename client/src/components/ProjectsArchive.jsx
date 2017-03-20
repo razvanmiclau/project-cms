@@ -1,11 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-export default class Home extends PureComponent {
-  active(path) {
-    if (this.props.location.pathname === path) {
-      return 'active';
-    }
+export default class ProjectsArchive extends Component {
+  constructor(props) {
+    super(props);
   }
 
   render() {
@@ -16,14 +14,16 @@ export default class Home extends PureComponent {
             <div className="navbar-header">
               <a className="navbar-brand">Project CMS</a>
               <ul className="nav navbar-nav">
-                <li className={this.active('/')}><Link to="/">Home</Link></li>
-                <li className={this.active('/projects')}><Link to="/projects">Projects</Link></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/projects">Projects</Link></li>
               </ul>
             </div>
           </div>
         </nav>
-        {this.props.children}
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     )
   }
-};
+}

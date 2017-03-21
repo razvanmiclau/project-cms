@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import ProjectList from '../ProjectList';
 
-const headers = {
-  headers: new Headers({
-    'Content-Type': 'application/json'
-  })
-};
-
 export default class ProjectsContainer extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +18,7 @@ export default class ProjectsContainer extends Component {
   }
 
   fetchProjects() {
-    fetch('http://localhost:8080/projects', headers)
-    .then(res => res.json())
-    .then(data => this.setState({projects: data}));
+    this.props.projectActions.getProjects();
   }
 
   deleteProject(id) {

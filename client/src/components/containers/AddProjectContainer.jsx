@@ -33,6 +33,10 @@ export default class AddProjectContainer extends Component {
     e.preventDefault();
     fileUploader.pick({
       accept: ['image/*'],
+      transformOptions: {
+        maxDimensions: [600,400],
+        transformations: { crop: true, sepia: true }
+      },
       preferLinkOverStore: true,
       onFileUploadProgress: (file, progressEvent) => {
         console.log(JSON.stringify(progressEvent))

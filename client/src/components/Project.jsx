@@ -8,7 +8,7 @@ export default class Project extends PureComponent {
       <div className="panel panel-default">
         <div className="panel-body">
           <h3>{project_name}</h3>
-          <img className="project-thumbnail" src={project_pic} alt={project_name} />
+          <img className="img-rounded" src={project_pic} alt={project_name} />
           <hr/>
           <p>{project_desc}</p>
         </div>

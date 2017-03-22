@@ -13,10 +13,6 @@ import * as projectActionCreators from '../../actions/projects';
 class ProjectsContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedProject: {},
-      searchBar: ''
-    }
     this.deleteProject = this.deleteProject.bind(this);
   }
 
@@ -29,18 +25,7 @@ class ProjectsContainer extends Component {
   }
 
   deleteProject(id) {
-    const projects = this.state.projects;
-    fetch(`http://localhost:8080/projects/${id}`, {
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-      method: 'DELETE',
-    })
-    .then(res => res.json())
-    .then(res => {
-      this.setState({ projects: projects.filter(project => project._id != id)})
-      console.log(res.message);
-    });
+    this.props.projectActions.deleteProject(id);
   }
 
   render() {

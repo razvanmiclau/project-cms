@@ -1,19 +1,31 @@
-import { takeLatest } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { takeLatest, delay } from 'redux-saga';
+import { put, call, select } from 'redux-saga/effects';
 import {
-  GET_PROJECTS
+  GET_PROJECTS,
+  DELETE_PROJECT
 } from '../constants/projects';
-import { getProjectsSuccess, getProjectsFail } from '../actions/projects';
+import { getProjectsSuccess, getProjectsFail, deleteProjectSuccess, deleteProjectFail } from '../actions/projects';
 
-// FetchProjects Method taken from ProjectsContainer.
-const headers = {
-  headers: new Headers({
-    'Content-Type': 'application/json'
-  })
-};
+const selectedProjects = (state) => {
+  return state.getIn(['projects', 'list']).toJS();
+}
 
 const fetchProjects = () => {
-  return fetch('http://localhost:8080/projects', headers)
+  return fetch('http://localhost:8080/projects', {
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    })
+  })
+  .then(res => res.json())
+}
+
+const deleteProjectOnServer = (id) => {
+  return fetch(`http://localhost:8080/projects/${id}`, {
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    method: 'DELETE',
+  })
   .then(res => res.json())
 }
 
@@ -27,10 +39,27 @@ function* getProjects () {
   }
 }
 
+function* deleteProject (action) {
+  const { id } = action;
+  const projects = yield select(selectedProjects);
+  try {
+    yield call(deleteProjectOnServer, id);
+    yield put(deleteProjectSuccess(projects.filter(project => project._id !== id)));
+  } catch (err) {
+    yield put(deleteProjectFail());
+  }
+}
+
+// Saga Watchers
 function* watchGetProjects () {
   yield takeLatest(GET_PROJECTS, getProjects);
 }
 
+function* watchDeleteProject () {
+  yield takeLatest(DELETE_PROJECT, deleteProject);
+}
+
 export {
-  watchGetProjects
+  watchGetProjects,
+  watchDeleteProject
 }

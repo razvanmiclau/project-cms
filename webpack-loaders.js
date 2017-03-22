@@ -25,13 +25,13 @@ exports.devServer = function(options) {
 // the css loader
 exports.css = {
   test: /\.css$/,
-  loaders: ['style', 'css'],
+  use: ['style-loader', 'css-loader'],
   include: PATHS.css
 }
 // The file loader
 exports.font = {
   test: /\.ttf$/,
-  loaders: ['file']
+  loaders: ['file-loader']
 }
 // Babel loader
 exports.babel = {

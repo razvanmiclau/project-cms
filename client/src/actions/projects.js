@@ -15,7 +15,7 @@ const getProjects = () => {
 /* GET_PROJECTS_SUCCESS dispatch after fetchProjects
  * adds a new state to the store.
 */
-const getProjectSuccess = (projects) => {
+const getProjectsSuccess = (projects) => {
   return {
     type: GET_PROJECTS_SUCCESS,
     projects
@@ -30,3 +30,5 @@ const getProjectsFail = () => {
     type: GET_PROJECTS_FAIL
   }
 }
+
+export { getProjects, getProjectsSuccess, getProjectsFail};

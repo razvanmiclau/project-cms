@@ -15,6 +15,7 @@ export default class ProjectList extends PureComponent {
 
   render() {
     const { projects, deleteProject } = this.props;
+    
     return (
       <div className="container">
         {

@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import ProjectList from '../ProjectList';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import toJS from 'immutable-to-js';
+import Immutable from 'immutable';
 
-export default class ProjectsContainer extends Component {
+// Components
+import ProjectList from '../ProjectList';
+// Actions
+import * as projectActionCreators from '../../actions/projects';
+
+class ProjectsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      projects: [],
       selectedProject: {},
       searchBar: ''
     }
@@ -37,7 +44,7 @@ export default class ProjectsContainer extends Component {
   }
 
   render() {
-    const projects = this.state.projects;
+    const { projects } = this.props;
     return (
       <div>
         <div className="page-header">
@@ -54,3 +61,17 @@ export default class ProjectsContainer extends Component {
     )
   }
 }
+
+function mapStateToProps (state) {
+  return {
+    projects: toJS(state.getIn(['projects', 'list'], Immutable.List()))
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    projectActions: bindActionCreators(projectActionCreators, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsContainer);

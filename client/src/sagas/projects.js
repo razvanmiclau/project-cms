@@ -13,9 +13,8 @@ const headers = {
 };
 
 const fetchProjects = () => {
-  fetch('http://localhost:8080/projects', headers)
+  return fetch('http://localhost:8080/projects', headers)
   .then(res => res.json())
-  .then(data => this.setState({projects: data}));
 }
 
 // Saga Functions

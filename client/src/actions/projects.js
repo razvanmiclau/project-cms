@@ -8,7 +8,10 @@ import {
   DELETE_PROJECT_FAIL,
   ADD_PROJECT,
   ADD_PROJECT_SUCCESS,
-  ADD_PROJECT_FAIL
+  ADD_PROJECT_FAIL,
+  UPLOAD_IMAGE,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAIL
 } from '../constants/projects';
 
 // GET_PROJECTS dispatch the fetchProjects function to retrieve projects from server.
@@ -75,6 +78,25 @@ const addProjectFail = () => {
   }
 }
 
+const uploadImage = () => {
+  return {
+    type: UPLOAD_IMAGE
+  }
+}
+
+const uploadImageSuccess = (url) => {
+  return {
+    type: UPLOAD_IMAGE_SUCCESS,
+    url
+  }
+}
+
+const uploadImageFail = () => {
+  return {
+    type: UPLOAD_IMAGE_FAIL
+  }
+}
+
 export {
   getProjects,
   getProjectsSuccess,
@@ -84,5 +106,8 @@ export {
   deleteProjectFail,
   addProject,
   addProjectSuccess,
-  addProjectFail
+  addProjectFail,
+  uploadImage,
+  uploadImageSuccess,
+  uploadImageFail
 };

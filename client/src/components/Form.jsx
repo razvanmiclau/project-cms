@@ -6,7 +6,7 @@ class Form extends PureComponent {
   render() {
     const { image, uploadImage } = this.props;
     return (
-      <form onSubmit={this.props.submit}>
+      <form onSubmit={this.props.handleSubmit}>
         <div className="form-group">
           <label htmlFor="project-title">Project Title</label>
           <Field

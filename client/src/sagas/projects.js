@@ -2,12 +2,17 @@ import { takeLatest, delay } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import {
   GET_PROJECTS,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  ADD_PROJECT
 } from '../constants/projects';
-import { getProjectsSuccess, getProjectsFail, deleteProjectSuccess, deleteProjectFail } from '../actions/projects';
+import { getProjectsSuccess, getProjectsFail, deleteProjectSuccess, deleteProjectFail, addProjectSuccess, addProjectFail } from '../actions/projects';
 
 const selectedProjects = (state) => {
   return state.getIn(['projects', 'list']).toJS();
+}
+
+const projectForm = (state) => {
+  return state.getIn(['form', 'project']).toJS();
 }
 
 const fetchProjects = () => {
@@ -27,6 +32,20 @@ const deleteProjectOnServer = (id) => {
     method: 'DELETE',
   })
   .then(res => res.json())
+}
+
+const addProjectToServer = (project) => {
+  return fetch('http://localhost:8080/projects', {
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    method: 'POST',
+    body: JSON.stringify(project)
+  }).
+  then(res => {
+    if (res.status === 200) return res.json();
+    throw res;
+  });
 }
 
 // Saga Functions
@@ -50,6 +69,18 @@ function* deleteProject (action) {
   }
 }
 
+function* addProject () {
+  const project = yield select(projectForm);
+  const newProject = Object.assign({}, project.values);
+  try {
+    const result = yield call(addProjectToServer, newProject);
+    yield put(addProjectSuccess);
+    yield put(push('/projects'));
+  } catch (err) {
+    message = 'Sorry, an error occured uploading the project.'
+  }
+}
+
 // Saga Watchers
 function* watchGetProjects () {
   yield takeLatest(GET_PROJECTS, getProjects);
@@ -59,7 +90,12 @@ function* watchDeleteProject () {
   yield takeLatest(DELETE_PROJECT, deleteProject);
 }
 
+function* watchAddProject () {
+  yield takeLatest(ADD_PROJECT, addProject);
+}
+
 export {
   watchGetProjects,
-  watchDeleteProject
+  watchDeleteProject,
+  watchAddProject
 }

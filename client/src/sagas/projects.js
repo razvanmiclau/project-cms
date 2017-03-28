@@ -24,6 +24,10 @@ const selectedProjects = (state) => {
   return state.getIn(['projects', 'list']).toJS();
 }
 
+const selectedImage = (state) => {
+  return state.getIn(['image', 'url'], '');
+}
+
 const projectForm = (state) => {
   return state.getIn(['form', 'project']).toJS();
 }
@@ -107,8 +111,9 @@ function* deleteProject (action) {
 }
 
 function* addProject () {
+  const image = yield select(selectedImage);
   const project = yield select(projectForm);
-  const newProject = Object.assign({}, {}, project.values);
+  const newProject = Object.assign({}, { image }, project.values);
   try {
     const result = yield call(addProjectToServer, newProject);
     yield put(addProjectSuccess());

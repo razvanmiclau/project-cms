@@ -6,6 +6,9 @@ import {
   DELETE_PROJECT,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
+  ADD_PROJECT,
+  ADD_PROJECT_SUCCESS,
+  ADD_PROJECT_FAIL
 } from '../constants/projects';
 
 // GET_PROJECTS dispatch the fetchProjects function to retrieve projects from server.
@@ -54,6 +57,24 @@ const deleteProjectFail = () => {
   }
 }
 
+const addProject = () => {
+  return {
+    type: ADD_PROJECT
+  }
+}
+
+const addProjectSuccess = () => {
+  return {
+    type: ADD_PROJECT_SUCCESS
+  }
+}
+
+const addProjectFail = () => {
+  return {
+    type: ADD_PROJECT_FAIL
+  }
+}
+
 export {
   getProjects,
   getProjectsSuccess,
@@ -61,4 +82,7 @@ export {
   deleteProject,
   deleteProjectSuccess,
   deleteProjectFail,
+  addProject,
+  addProjectSuccess,
+  addProjectFail
 };

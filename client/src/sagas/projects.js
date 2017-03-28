@@ -3,9 +3,22 @@ import { put, call, select } from 'redux-saga/effects';
 import {
   GET_PROJECTS,
   DELETE_PROJECT,
-  ADD_PROJECT
+  ADD_PROJECT,
+  UPLOAD_IMAGE
 } from '../constants/projects';
-import { getProjectsSuccess, getProjectsFail, deleteProjectSuccess, deleteProjectFail, addProjectSuccess, addProjectFail } from '../actions/projects';
+import {
+  getProjectsSuccess,
+  getProjectsFail,
+  deleteProjectSuccess,
+  deleteProjectFail,
+  addProjectSuccess,
+  addProjectFail,
+  uploadImageSuccess,
+  uploadImageFail
+} from '../actions/projects';
+
+import filestack from 'filestack-js';
+const fileUploader = filestack.init("At2eWk3cXTt2E43Ypq9iXz");
 
 const selectedProjects = (state) => {
   return state.getIn(['projects', 'list']).toJS();
@@ -48,6 +61,30 @@ const addProjectToServer = (project) => {
   });
 }
 
+const uploadImagePromise = () => {
+  return new Promise((resolve, reject) => {
+    fileUploader.pick({
+      accept: ['image/*'],
+      transformOptions: {
+        maxDimensions: [600,400],
+        transformations: { crop: true, sepia: true }
+      },
+      preferLinkOverStore: true,
+      onFileUploadProgress: (file, progressEvent) => {
+        console.log(JSON.stringify(progressEvent))
+      },
+      onFileUploadFinished: file => {
+        console.log(file + ' has been succesfully uploaded.')
+      }
+    })
+    .then(result => {
+      const imageUrl = result.filesUploaded[0].url;
+      console.log(JSON.stringify(imageUrl));
+      resolve(imageUrl)
+    })
+  });
+}
+
 // Saga Functions
 function* getProjects () {
   try {
@@ -80,6 +117,15 @@ function* addProject () {
   }
 }
 
+function* uploadImage () {
+  try {
+    const url = yield call(uploadImagePromise);
+    yield put(uploadImageSuccess(url));
+  } catch (err) {
+    yield put(uploadImageFail());
+  }
+}
+
 // Saga Watchers
 function* watchGetProjects () {
   yield takeLatest(GET_PROJECTS, getProjects);
@@ -93,8 +139,13 @@ function* watchAddProject () {
   yield takeLatest(ADD_PROJECT, addProject);
 }
 
+function* watchUploadImage () {
+  yield takeLatest(UPLOAD_IMAGE, uploadImage);
+}
+
 export {
   watchGetProjects,
   watchDeleteProject,
-  watchAddProject
+  watchAddProject,
+  watchUploadImage
 }

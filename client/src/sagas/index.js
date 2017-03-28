@@ -2,13 +2,15 @@
 import {
   watchGetProjects,
   watchDeleteProject,
-  watchAddProject
+  watchAddProject,
+  watchUploadImage,
 } from './projects';
 
 export default function* rootSaga () {
   yield [
     watchGetProjects(),
     watchDeleteProject(),
-    watchAddProject()
+    watchAddProject(),
+    watchUploadImage(),
   ];
 }

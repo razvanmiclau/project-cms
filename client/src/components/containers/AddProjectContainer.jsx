@@ -5,12 +5,12 @@ import filestack from 'filestack-js';
 import Form from '../Form';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * projectsActionCreators from '../../actions/projects';
+import * as projectsActionCreators from '../../actions/projects';
 
 
 const fileUploader = filestack.init("At2eWk3cXTt2E43Ypq9iXz");
 
-export default class AddProjectContainer extends Component {
+class AddProjectContainer extends Component {
   constructor(props) {
     super(props);
     this.state = { newProject: {}};
@@ -20,7 +20,7 @@ export default class AddProjectContainer extends Component {
 
   submit(e) {
     e.preventDefault();
-    this.props.projectsActionCreators.addProject();
+    this.props.projectActions.addProject();
   }
 
   uploadImage(e) {

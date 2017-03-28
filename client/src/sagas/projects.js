@@ -71,13 +71,12 @@ function* deleteProject (action) {
 
 function* addProject () {
   const project = yield select(projectForm);
-  const newProject = Object.assign({}, project.values);
+  const newProject = Object.assign({}, {}, project.values);
   try {
     const result = yield call(addProjectToServer, newProject);
-    yield put(addProjectSuccess);
-    yield put(push('/projects'));
+    yield put(addProjectSuccess());
   } catch (err) {
-    message = 'Sorry, an error occured uploading the project.'
+    console.log(err);
   }
 }
 

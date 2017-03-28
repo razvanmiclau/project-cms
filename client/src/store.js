@@ -16,4 +16,4 @@ const storeConfig = () => {
   return store;
 }
 
-export default storeConfig
+export default storeConfig;

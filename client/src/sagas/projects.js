@@ -1,5 +1,6 @@
 import { takeLatest, delay } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
+import { hashHistory } from 'react-router';
 import {
   GET_PROJECTS,
   DELETE_PROJECT,
@@ -25,7 +26,7 @@ const selectedProjects = (state) => {
 }
 
 const selectedImage = (state) => {
-  return state.getIn(['image', 'url'], '');
+  return state.getIn(['projects', 'url'], '');
 }
 
 const projectForm = (state) => {
@@ -111,12 +112,13 @@ function* deleteProject (action) {
 }
 
 function* addProject () {
-  const image = yield select(selectedImage);
+  const project_pic = yield select(selectedImage);
   const project = yield select(projectForm);
-  const newProject = Object.assign({}, { image }, project.values);
+  const newProject = Object.assign({}, { project_pic }, project.values);
   try {
     const result = yield call(addProjectToServer, newProject);
     yield put(addProjectSuccess());
+    hashHistory.push('/projects');
   } catch (err) {
     console.log(err);
   }

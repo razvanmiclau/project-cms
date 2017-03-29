@@ -25,37 +25,23 @@ class AddProjectContainer extends Component {
 
   uploadImage(e) {
     e.preventDefault();
-    fileUploader.pick({
-      accept: ['image/*'],
-      transformOptions: {
-        maxDimensions: [600,400],
-        transformations: { crop: true, sepia: true }
-      },
-      preferLinkOverStore: true,
-      onFileUploadProgress: (file, progressEvent) => {
-        console.log(JSON.stringify(progressEvent))
-      },
-      onFileUploadFinished: file => {
-        console.log(file + ' has been succesfully uploaded.')
-      }
-    })
-    .then(result => {
-      console.log(JSON.stringify(result.filesUploaded[0].url));
-      $('#preview').attr('src', result.filesUploaded[0].url)
-    })
+    this.props.projectActions.uploadImage();
   }
 
   render() {
+    const { image } = this.props;
     return(
       <div className="container">
-        <Form handleSubmit={this.submit} />
+        <Form handleSubmit={this.submit} image={image} uploadImage={this.uploadImage}/>
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    image: state.getIn(['projects', 'url'], '')
+  }
 }
 
 function mapDispatchToProps(dispatch) {

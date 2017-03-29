@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form/immutable';
 
 class Form extends PureComponent {
   render() {
-    //const { image, uploadImage } = this.props;
+    const { image, uploadImage } = this.props;
     return (
       <form onSubmit={this.props.handleSubmit}>
         <div className="form-group">
@@ -15,6 +15,15 @@ class Form extends PureComponent {
             className="form-control"
             component="input"
             placeholder="Project Title" />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="project_pic">Image URL</label>
+          <input type="file" onClick={uploadImage} />
+        </div>
+
+        <div className="form-group">
+          <img src={image} id="preview" className="img-responsive img-upload" />
         </div>
 
         <div className="form-group">
@@ -36,11 +45,3 @@ class Form extends PureComponent {
 }
 
 export default reduxForm({ form: 'project' })(Form);
-
-// <div className="form-group">
-//   <label htmlFor="project-url">Image URL</label>
-//   <input type="file" onClick={uploadImage} />
-// </div>
-// <div className="form-group">
-//   <img src={image} id="preview" className="img-responsive img-upload" />
-// </div>

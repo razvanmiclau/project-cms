@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 
 // Components
 import ProjectList from '../ProjectList';
+import SingleProject from '../SingleProject';
 // Actions
 import * as projectActionCreators from '../../actions/projects';
 
@@ -14,6 +15,7 @@ class ProjectsContainer extends Component {
   constructor(props) {
     super(props);
     this.deleteProject = this.deleteProject.bind(this);
+    this.displayProjectDetails = this.displayProjectDetails.bind(this);
     this.setSearchBar = this.setSearchBar.bind(this);
   }
 
@@ -29,12 +31,17 @@ class ProjectsContainer extends Component {
     this.props.projectActions.deleteProject(id);
   }
 
+  displayProjectDetails(index) {
+    this.props.projectActions.displayProjectDetails(this.props.projects[index]);
+    $('#project-modal').modal();
+  }
+
   setSearchBar(e) {
     this.props.projectActions.searchQuery(e.target.value.toLowerCase());
   }
 
   render() {
-    const { projects, searchBar } = this.props;
+    const { projects, searchBar, selectedProject } = this.props;
     return (
       <div>
         <div className="page-header">
@@ -42,8 +49,10 @@ class ProjectsContainer extends Component {
         </div>
 
         <div className="projects">
+          <SingleProject project={selectedProject} />
           <ProjectList
             projects={projects}
+            displayProjectDetails={this.displayProjectDetails}
             searchBar={searchBar}
             setSearchBar={this.setSearchBar}
             deleteProject={this.deleteProject}
@@ -57,7 +66,8 @@ class ProjectsContainer extends Component {
 function mapStateToProps (state) {
   return {
     projects: toJS(state.getIn(['projects', 'list'], Immutable.List())),
-    searchBar: state.getIn(['projects', 'searchBar'], '')
+    searchBar: state.getIn(['projects', 'searchBar'], ''),
+    selectedProject: toJS(state.getIn(['projects', 'selectedProject'], Immutable.List()))
   }
 }
 

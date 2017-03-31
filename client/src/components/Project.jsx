@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 export default class Project extends PureComponent {
 
   render() {
-    const { _id, project_name, project_desc, project_pic, deleteProject} = this.props;
+    const { _id, index, project_name, project_desc, project_pic, deleteProject, displayProjectDetails} = this.props;
     return(
       <div className="panel panel-default">
         <div className="panel-body">
@@ -14,6 +14,7 @@ export default class Project extends PureComponent {
         </div>
         <div className="panel-footer">
           <button className="btn btn-danger" onClick={() => deleteProject(_id)}>Remove Project</button>
+          <button className="btn btn-primary" onClick={() => displayProjectDetails(index)}>Show</button>
         </div>
       </div>
     )

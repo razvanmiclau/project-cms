@@ -12,7 +12,8 @@ import {
   UPLOAD_IMAGE,
   UPLOAD_IMAGE_SUCCESS,
   UPLOAD_IMAGE_FAIL,
-  SEARCH_QUERY
+  SEARCH_QUERY,
+  DISPLAY_PROJECT_DETAILS
 } from '../constants/projects';
 
 // GET_PROJECTS dispatch the fetchProjects function to retrieve projects from server.
@@ -98,6 +99,13 @@ const uploadImageFail = () => {
   }
 }
 
+const displayProjectDetails = (project) => {
+  return {
+    type: DISPLAY_PROJECT_DETAILS,
+    project
+  }
+}
+
 const searchQuery = (keyword) => {
   return {
     type: SEARCH_QUERY,
@@ -118,5 +126,6 @@ export {
   uploadImage,
   uploadImageSuccess,
   uploadImageFail,
-  searchQuery
+  searchQuery,
+  displayProjectDetails
 };

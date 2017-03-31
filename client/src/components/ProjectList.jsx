@@ -14,7 +14,7 @@ export default class ProjectList extends PureComponent {
   }
 
   render() {
-    const { projects, deleteProject, searchBar, setSearchBar } = this.props;
+    const { projects, deleteProject, searchBar, setSearchBar, displayProjectDetails } = this.props;
 
     return (
       <div className="container-fluid">
@@ -26,10 +26,12 @@ export default class ProjectList extends PureComponent {
           {
             projects
             .filter(project => project.project_name.toLowerCase().includes(searchBar))
-            .map(project => {
+            .map((project, index) => {
               return(
                 <Project {...project}
                   key={project._id}
+                  index={index}
+                  displayProjectDetails={displayProjectDetails}
                   deleteProject={deleteProject} />
               )
             })

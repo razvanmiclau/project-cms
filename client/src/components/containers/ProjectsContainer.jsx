@@ -14,6 +14,7 @@ class ProjectsContainer extends Component {
   constructor(props) {
     super(props);
     this.deleteProject = this.deleteProject.bind(this);
+    this.setSearchBar = this.setSearchBar.bind(this);
   }
 
   componentDidMount() {
@@ -28,8 +29,12 @@ class ProjectsContainer extends Component {
     this.props.projectActions.deleteProject(id);
   }
 
+  setSearchBar(e) {
+    this.props.projectActions.searchQuery(e.target.value.toLowerCase());
+  }
+
   render() {
-    const { projects } = this.props;
+    const { projects, searchBar } = this.props;
     return (
       <div>
         <div className="page-header">
@@ -39,6 +44,8 @@ class ProjectsContainer extends Component {
         <div className="projects">
           <ProjectList
             projects={projects}
+            searchBar={searchBar}
+            setSearchBar={this.setSearchBar}
             deleteProject={this.deleteProject}
           />
         </div>
@@ -49,7 +56,8 @@ class ProjectsContainer extends Component {
 
 function mapStateToProps (state) {
   return {
-    projects: toJS(state.getIn(['projects', 'list'], Immutable.List()))
+    projects: toJS(state.getIn(['projects', 'list'], Immutable.List())),
+    searchBar: state.getIn(['projects', 'searchBar'], '')
   }
 }
 

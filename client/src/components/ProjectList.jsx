@@ -14,19 +14,27 @@ export default class ProjectList extends PureComponent {
   }
 
   render() {
-    const { projects, deleteProject } = this.props;
-    
+    const { projects, deleteProject, searchBar, setSearchBar } = this.props;
+
     return (
-      <div className="container">
-        {
-          projects.map(project => {
-            return(
-              <Project {...project}
-                key={project._id}
-                deleteProject={deleteProject} />
-            )
-          })
-        }
+      <div className="container-fluid">
+        <div className="row">
+          <input type="search" placeholder="search project..." className="form-control input-sm"
+            onKeyUp={setSearchBar} />
+        </div>
+        <div className="row">
+          {
+            projects
+            .filter(project => project.project_name.toLowerCase().includes(searchBar))
+            .map(project => {
+              return(
+                <Project {...project}
+                  key={project._id}
+                  deleteProject={deleteProject} />
+              )
+            })
+          }
+        </div>
       </div>
     )
   }

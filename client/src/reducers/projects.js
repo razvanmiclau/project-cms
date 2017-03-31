@@ -7,7 +7,8 @@ import {
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_FAIL,
   UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAIL
+  UPLOAD_IMAGE_FAIL,
+  SEARCH_QUERY,
 } from '../constants/projects';
 
 // Initial State -> empty map.
@@ -24,6 +25,10 @@ export default (state = initialState, action) => {
 
     case UPLOAD_IMAGE_SUCCESS: {
       return state.merge({ url: action.url });
+    }
+
+    case SEARCH_QUERY: {
+      return state.merge({ searchBar: action.keyword });
     }
 
     case ADD_PROJECT_SUCCESS:
